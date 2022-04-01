@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet';
 import MainTemplate from 'components/templates/MainTemplate';
+import Game from 'pages/Game';
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
         />
       </Helmet>
       <MainTemplate>
-        <div>Welcome in React App!</div>
+        <Game />
       </MainTemplate>
     </>
   );

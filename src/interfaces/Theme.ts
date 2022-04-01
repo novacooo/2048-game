@@ -1,6 +1,6 @@
-interface Theme {
+interface ITheme {
   accent: string;
   bgPrimary: string;
 }
 
-export default Theme;
+export default ITheme;
