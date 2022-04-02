@@ -8,7 +8,7 @@ interface WrapperProps {
   textColor: string;
 }
 
-interface SquareProps {
+interface TileProps {
   value: number;
 }
 
@@ -24,7 +24,7 @@ const Wrapper = styled.div<WrapperProps>`
   user-select: none;
 `;
 
-const Tile = ({ value }: SquareProps) => {
+const Tile = ({ value }: TileProps) => {
   const { textTileDark, textTileLight, tileColors } = useTheme();
   const [bgColor, setBgColor] = useState<string>(tileColors[0]);
   const [textColor, setTextColor] = useState<string>(textTileDark);

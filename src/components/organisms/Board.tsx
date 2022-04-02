@@ -20,8 +20,11 @@ const Board = () => {
 
   const handleClick = () => {
     if (setTile) {
-      setTile(0, 3, 10);
-      setTile(2, 1, 7);
+      setTile(0, 3, 16);
+      setTile(2, 1, 8);
+      setTile(0, 2, 4);
+      setTile(1, 2, 2);
+      setTile(3, 3, 32);
     }
   };
 

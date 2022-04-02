@@ -1,10 +1,10 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-
-type BoardType = Array<Array<number>>;
+import BoardType from 'types/BoardType';
+import TileValueType from 'types/TileValueType';
 
 interface IBoardContext {
   board: BoardType;
-  setTile: (row: number, col: number, value: number) => void;
+  setTile: (row: number, col: number, value: TileValueType) => void;
 }
 
 interface BoardProviderProps {
@@ -25,7 +25,7 @@ export const useBoardContext = () => useContext(BoardContext);
 const BoardProvider = ({ children }: BoardProviderProps) => {
   const [board, setBoard] = useState<BoardType>(initialBoard);
 
-  const setTile = (row: number, col: number, value: number) => {
+  const setTile = (row: number, col: number, value: TileValueType) => {
     setBoard((prevBoard) => [
       ...prevBoard.slice(0, row),
       [
