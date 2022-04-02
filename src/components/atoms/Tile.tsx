@@ -46,7 +46,7 @@ const Tile = ({ value }: SquareProps) => {
 
   return (
     <Wrapper bgColor={bgColor} textColor={textColor}>
-      {value}
+      {value > 0 && value}
     </Wrapper>
   );
 };

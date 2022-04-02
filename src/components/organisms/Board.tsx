@@ -1,13 +1,7 @@
-import Tile from 'components/atoms/Tile';
 import styled from 'styled-components';
 import dimens from 'styles/dimens';
-
-const boardArray = [
-  [2, 4, 8, 16],
-  [32, 64, 128, 256],
-  [512, 1024, 2048, 4096],
-  [0, 0, 0, 0],
-];
+import Tile from 'components/atoms/Tile';
+import { useBoardContext } from 'contexts/BoardContext';
 
 const Wrapper = styled.div`
   display: grid;
@@ -21,12 +15,23 @@ const Wrapper = styled.div`
   border-radius: ${dimens.boardRadius};
 `;
 
-const Board = () => (
-  <Wrapper>
-    {boardArray.map((row) =>
-      row.map((number, index) => <Tile key={index} value={number} />),
-    )}
-  </Wrapper>
-);
+const Board = () => {
+  const { board, setTile } = useBoardContext() || {};
+
+  const handleClick = () => {
+    if (setTile) {
+      setTile(0, 3, 10);
+      setTile(2, 1, 7);
+    }
+  };
+
+  return (
+    <Wrapper onClick={handleClick}>
+      {board?.map((row) =>
+        row.map((number, index) => <Tile key={index} value={number} />),
+      )}
+    </Wrapper>
+  );
+};
 
 export default Board;

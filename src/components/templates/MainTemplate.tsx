@@ -5,6 +5,7 @@ import { lightTheme, darkTheme } from 'styles/themes';
 import ThemeModeProvider, {
   useThemeModeContext,
 } from 'contexts/ThemeModeContext';
+import BoardProvider from 'contexts/BoardContext';
 
 interface ThemeModeWrapperProps {
   children: ReactNode;
@@ -28,9 +29,11 @@ const ThemeModeWrapper = ({ children }: ThemeModeWrapperProps) => {
 const MainTemplate = ({ children }: MainTemplateProps) => {
   return (
     <>
-      <ThemeModeProvider>
-        <ThemeModeWrapper>{children}</ThemeModeWrapper>
-      </ThemeModeProvider>
+      <BoardProvider>
+        <ThemeModeProvider>
+          <ThemeModeWrapper>{children}</ThemeModeWrapper>
+        </ThemeModeProvider>
+      </BoardProvider>
     </>
   );
 };
