@@ -1,5 +1,6 @@
-import { useThemeModeContext } from 'contexts/ThemeModeContext';
 import styled from 'styled-components';
+import { useThemeModeContext } from 'contexts/ThemeModeContext';
+import Board from 'components/organisms/Board';
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,18 +9,13 @@ const Wrapper = styled.div`
   height: 100%;
 `;
 
-const Board = styled.div`
-  width: 70vmin;
-  height: 70vmin;
-  background-color: red;
-`;
-
 const Game = () => {
   const { toggleTheme } = useThemeModeContext() || {};
 
   return (
     <Wrapper>
-      <Board onClick={toggleTheme} />
+      <button onClick={toggleTheme}>toggle theme</button>
+      <Board />
     </Wrapper>
   );
 };
