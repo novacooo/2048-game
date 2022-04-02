@@ -1,5 +1,6 @@
 import Tile from 'components/atoms/Tile';
 import styled from 'styled-components';
+import dimens from 'styles/dimens';
 
 const boardArray = [
   [2, 4, 8, 16],
@@ -12,10 +13,12 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-rows: repeat(4, 1fr);
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  width: 500px;
-  height: 500px;
-  background-color: yellow;
+  gap: ${dimens.boardGap};
+  padding: ${dimens.boardPadding};
+  width: ${dimens.boardSize};
+  height: ${dimens.boardSize};
+  background-color: ${({ theme }) => theme.bgBoard};
+  border-radius: ${dimens.boardRadius};
 `;
 
 const Board = () => (

@@ -18,13 +18,13 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     height: 100%;
     font-size: 1.6rem;
-    font-family: ${font.NAME}, sans-serif;
+    font-family: ${font.name}, sans-serif;
     background-color: ${({ theme }) => theme.bgPrimary};
 
     * {
       margin: 0;
       padding: 0;
-      font-family: ${font.NAME}, sans-serif;
+      font-family: ${font.name}, sans-serif;
     }
   }
 

@@ -9,15 +9,10 @@ const Wrapper = styled.div`
   height: 100%;
 `;
 
-const Game = () => {
-  const { toggleTheme } = useThemeModeContext() || {};
-
-  return (
-    <Wrapper>
-      <button onClick={toggleTheme}>toggle theme</button>
-      <Board />
-    </Wrapper>
-  );
-};
+const Game = () => (
+  <Wrapper>
+    <Board />
+  </Wrapper>
+);
 
 export default Game;

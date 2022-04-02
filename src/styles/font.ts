@@ -1,5 +1,8 @@
 const font = {
-  NAME: 'Work Sans',
+  name: 'Work Sans',
+  sizeTile: '3.0rem',
+  weightNormal: 400,
+  weightBold: 600,
 };
 
 export default font;

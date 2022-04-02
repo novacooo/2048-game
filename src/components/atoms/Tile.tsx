@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
+import dimens from 'styles/dimens';
+import font from 'styles/font';
 
 interface WrapperProps {
-  color: string;
+  bgColor: string;
+  textColor: string;
 }
 
 interface SquareProps {
@@ -13,26 +16,39 @@ const Wrapper = styled.div<WrapperProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${({ color }) => color};
+  background-color: ${({ bgColor }) => bgColor};
+  border-radius: ${dimens.tileRadius};
+  font-size: ${font.sizeTile};
+  font-weight: ${font.weightBold};
+  color: ${({ textColor }) => textColor};
+  user-select: none;
 `;
 
 const Tile = ({ value }: SquareProps) => {
-  const { tileColors } = useTheme();
-  const [color, setColor] = useState<string>(tileColors[0]);
+  const { textTileDark, textTileLight, tileColors } = useTheme();
+  const [bgColor, setBgColor] = useState<string>(tileColors[0]);
+  const [textColor, setTextColor] = useState<string>(textTileDark);
 
   useEffect(() => {
     if (value !== 0) {
       for (let i = 1; i < tileColors.length; i += 1) {
         if (value === 2 ** i) {
-          setColor(tileColors[i]);
-          return;
+          setBgColor(tileColors[i]);
+          break;
         }
-        setColor(tileColors.at(-1) as string);
+        setBgColor(tileColors.at(-1) as string);
       }
     }
-  }, [tileColors, value]);
 
-  return <Wrapper color={color}>{value}</Wrapper>;
+    if (value > 4) setTextColor(textTileLight);
+    else setTextColor(textTileDark);
+  }, [textTileDark, textTileLight, tileColors, value]);
+
+  return (
+    <Wrapper bgColor={bgColor} textColor={textColor}>
+      {value}
+    </Wrapper>
+  );
 };
 
 export default Tile;
