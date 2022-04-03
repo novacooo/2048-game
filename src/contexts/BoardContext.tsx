@@ -20,6 +20,8 @@ const BoardContext = createContext<IBoardContext | undefined>(undefined);
 const BoardProvider = ({ children }: BoardProviderProps) => {
   const [board, setBoard] = useState<BoardType>(initialBoard);
 
+  const boardSize = board.length;
+
   /**
    * Set value in specified tile.
    * @param row Tile row.
@@ -38,7 +40,6 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
    * Fill board with zeros.
    */
   const resetBoard = () => {
-    const boardSize = board.length;
     for (let i = 0; i < boardSize; i += 1) {
       for (let j = 0; j < boardSize; j += 1) {
         setTile(i, j, 0);
@@ -50,14 +51,26 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
    * Generates two tiles in random places with 2 or 4 value.
    */
   const generateTwoTiles = () => {
-    const boardSize = board.length;
-
+    let prevRow;
+    let prevCol;
     for (let i = 0; i < 2; i += 1) {
       let number;
-      while (number !== 2 && number !== 4) number = getRandomNumber(2, 4);
-      const row = getRandomNumber(0, boardSize - 1);
-      const col = getRandomNumber(0, boardSize - 1);
+      let row;
+      let col;
+
+      while (number !== 2 && number !== 4) {
+        number = getRandomNumber(2, 4);
+      }
+
+      do {
+        row = getRandomNumber(0, boardSize - 1);
+        col = getRandomNumber(0, boardSize - 1);
+      } while (row === prevRow && col === prevCol);
+
       setTile(row, col, number);
+
+      prevRow = row;
+      prevCol = col;
     }
   };
 
@@ -70,11 +83,32 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
   };
 
   /**
-   * Moving tiles to right side.
+   * Moving tiles to up.
+   */
+  const moveUp = () => {
+    setBoard((prevBoard) => {
+      const newBoard = prevBoard;
+
+      for (let i = 0; i < boardSize; i += 1) {
+        for (let j = 0; j < boardSize - 1; j += 1) {
+          for (let k = boardSize - 1; k > 0; k -= 1) {
+            if (newBoard[k][i] > 0 && newBoard[k - 1][i] === 0) {
+              newBoard[k - 1][i] = newBoard[k][i];
+              newBoard[k][i] = 0;
+            }
+          }
+        }
+      }
+
+      return [...newBoard];
+    });
+  };
+
+  /**
+   * Moving tiles to right.
    */
   const moveRight = () => {
     setBoard((prevBoard) => {
-      const boardSize = board.length;
       const newBoard = prevBoard;
 
       for (let i = 0; i < boardSize; i += 1) {
@@ -87,13 +121,59 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
           }
         }
       }
-      setTile(0, 3, 8);
+
+      return [...newBoard];
+    });
+  };
+
+  /**
+   * Moving tiles to down.
+   */
+  const moveDown = () => {
+    setBoard((prevBoard) => {
+      const newBoard = prevBoard;
+
+      for (let i = 0; i < boardSize; i += 1) {
+        for (let j = 0; j < boardSize - 1; j += 1) {
+          for (let k = 0; k < boardSize - 1; k += 1) {
+            if (newBoard[k][i] > 0 && newBoard[k + 1][i] === 0) {
+              newBoard[k + 1][i] = newBoard[k][i];
+              newBoard[k][i] = 0;
+            }
+          }
+        }
+      }
+
+      return [...newBoard];
+    });
+  };
+
+  /**
+   * Moving tiles to left.
+   */
+  const moveLeft = () => {
+    setBoard((prevBoard) => {
+      const newBoard = prevBoard;
+
+      for (let i = 0; i < boardSize; i += 1) {
+        for (let j = 0; j < boardSize - 1; j += 1) {
+          for (let k = boardSize - 1; k > 0; k -= 1) {
+            if (newBoard[i][k] > 0 && newBoard[i][k - 1] === 0) {
+              newBoard[i][k - 1] = newBoard[i][k];
+              newBoard[i][k] = 0;
+            }
+          }
+        }
+      }
+
       return [...newBoard];
     });
   };
 
   return (
-    <BoardContext.Provider value={{ board, generateBoard, moveRight }}>
+    <BoardContext.Provider
+      value={{ board, generateBoard, moveUp, moveRight, moveDown, moveLeft }}
+    >
       {children}
     </BoardContext.Provider>
   );

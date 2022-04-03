@@ -19,17 +19,18 @@ const NavigationWrapper = styled.div`
 
 const Game = () => {
   const { toggleTheme } = useThemeModeContext() || {};
-  const { generateBoard, moveRight } = useBoardContext() || {};
+  const { generateBoard, moveUp, moveRight, moveDown, moveLeft } =
+    useBoardContext() || {};
 
   return (
     <Wrapper>
       <NavigationWrapper>
         <button onClick={toggleTheme}>Toggle theme</button>
         <button onClick={generateBoard}>Generate board</button>
-        <button>Move up</button>
-        <button>Move down</button>
+        <button onClick={moveUp}>Move up</button>
+        <button onClick={moveDown}>Move down</button>
         <button onClick={moveRight}>Move right</button>
-        <button>Move left</button>
+        <button onClick={moveLeft}>Move left</button>
       </NavigationWrapper>
       <Board />
     </Wrapper>
