@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 `;
 
 const Board = () => {
-  const { board, setTile } = useBoardContext() || {};
+  const { board, setTile, moveRight } = useBoardContext() || {};
 
   const handleClick = () => {
     if (setTile) {
@@ -29,11 +29,14 @@ const Board = () => {
   };
 
   return (
-    <Wrapper onClick={handleClick}>
-      {board?.map((row) =>
-        row.map((number, index) => <Tile key={index} value={number} />),
-      )}
-    </Wrapper>
+    <>
+      <button onClick={moveRight}>move right</button>
+      <Wrapper onClick={handleClick}>
+        {board?.map((row) =>
+          row.map((number, index) => <Tile key={index} value={number} />),
+        )}
+      </Wrapper>
+    </>
   );
 };
 

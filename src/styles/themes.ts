@@ -1,4 +1,4 @@
-import ITheme from 'interfaces/Theme';
+import ITheme from 'interfaces/ITheme';
 
 export const lightTheme: ITheme = {
   bgPrimary: '#faf8ef',

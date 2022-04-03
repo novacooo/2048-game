@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import IThemeModeContext from 'interfaces/ThemeModeContext';
+import IThemeModeContext from 'interfaces/IThemeModeContext';
 
 interface ThemeModeProviderProps {
   children: ReactNode;

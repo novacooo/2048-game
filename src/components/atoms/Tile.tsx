@@ -38,6 +38,8 @@ const Tile = ({ value }: TileProps) => {
         }
         setBgColor(tileColors.at(-1) as string);
       }
+    } else {
+      setBgColor(tileColors[0]);
     }
 
     if (value > 4) setTextColor(textTileLight);
