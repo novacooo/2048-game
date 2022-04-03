@@ -5,9 +5,12 @@ interface ThemeModeProviderProps {
   children: ReactNode;
 }
 
-const ThemeModeContext = createContext<IThemeModeContext | undefined>(
-  undefined,
-);
+const initialContext: IThemeModeContext = {
+  isDark: false,
+  toggleTheme: () => {},
+};
+
+const ThemeModeContext = createContext<IThemeModeContext>(initialContext);
 
 export const useThemeModeContext = () => useContext(ThemeModeContext);
 

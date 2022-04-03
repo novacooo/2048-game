@@ -10,6 +10,7 @@ enum KeyCodes {
   ARROW_DOWN = 'ArrowDown',
   ARROW_LEFT = 'ArrowLeft',
   KEY_R = 'KeyR',
+  KEY_T = 'KeyT',
 }
 
 const Wrapper = styled.div`
@@ -17,29 +18,21 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  gap: 50px;
-`;
-
-const NavigationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 `;
 
 const Game = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const { toggleTheme } = useThemeModeContext() || {};
-  const boardContext = useBoardContext();
+  const { toggleTheme } = useThemeModeContext();
+  const { generateBoard, moveUp, moveRight, moveDown, moveLeft } =
+    useBoardContext();
 
   useEffect(() => {
     wrapperRef.current?.focus();
   }, [wrapperRef]);
 
-  if (!boardContext) return null;
-  const { generateBoard, moveUp, moveRight, moveDown, moveLeft } = boardContext;
-
   const handleKeyboardEvent = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.code === KeyCodes.KEY_R) generateBoard();
+    if (e.code === KeyCodes.KEY_T) toggleTheme();
     if (e.code === KeyCodes.ARROW_UP) moveUp();
     if (e.code === KeyCodes.ARROW_RIGHT) moveRight();
     if (e.code === KeyCodes.ARROW_DOWN) moveDown();
@@ -48,14 +41,6 @@ const Game = () => {
 
   return (
     <Wrapper ref={wrapperRef} onKeyDown={handleKeyboardEvent} tabIndex={0}>
-      <NavigationWrapper>
-        <button onClick={toggleTheme}>Toggle theme</button>
-        <button onClick={generateBoard}>Generate board</button>
-        <button onClick={moveUp}>Move up</button>
-        <button onClick={moveDown}>Move down</button>
-        <button onClick={moveRight}>Move right</button>
-        <button onClick={moveLeft}>Move left</button>
-      </NavigationWrapper>
       <Board />
     </Wrapper>
   );

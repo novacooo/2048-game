@@ -15,7 +15,16 @@ const initialBoard: BoardType = [
   [0, 0, 0, 0],
 ];
 
-const BoardContext = createContext<IBoardContext | undefined>(undefined);
+const initialContext: IBoardContext = {
+  board: initialBoard,
+  generateBoard: () => {},
+  moveUp: () => {},
+  moveRight: () => {},
+  moveDown: () => {},
+  moveLeft: () => {},
+};
+
+const BoardContext = createContext<IBoardContext>(initialContext);
 
 const BoardProvider = ({ children }: BoardProviderProps) => {
   const [board, setBoard] = useState<BoardType>(initialBoard);
