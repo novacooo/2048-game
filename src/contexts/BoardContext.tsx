@@ -9,10 +9,10 @@ interface BoardProviderProps {
 }
 
 const initialBoard: BoardType = [
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
+  [0, 4, 0, 0],
+  [0, 4, 0, 0],
+  [4, 4, 4, 4],
+  [0, 4, 0, 0],
 ];
 
 const initialContext: IBoardContext = {
@@ -57,29 +57,32 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
   };
 
   /**
-   * Generates two tiles in random places with 2 or 4 value.
+   * Generate tile with 2 or 4 value in random empty place.
+   */
+  const generateTile = () => {
+    let number;
+    let row;
+    let col;
+
+    while (number !== 2 && number !== 4) {
+      number = getRandomNumber(2, 4);
+    }
+
+    do {
+      row = getRandomNumber(0, boardSize - 1);
+      col = getRandomNumber(0, boardSize - 1);
+    } while (board[row][col] !== 0);
+
+    setTile(row, col, number);
+  };
+
+  // TODO: Sometimes generates two tiles in one place. Need to be fixed.
+  /**
+   * Generates two random tiles.
    */
   const generateTwoTiles = () => {
-    let prevRow;
-    let prevCol;
     for (let i = 0; i < 2; i += 1) {
-      let number;
-      let row;
-      let col;
-
-      while (number !== 2 && number !== 4) {
-        number = getRandomNumber(2, 4);
-      }
-
-      do {
-        row = getRandomNumber(0, boardSize - 1);
-        col = getRandomNumber(0, boardSize - 1);
-      } while (row === prevRow && col === prevCol);
-
-      setTile(row, col, number);
-
-      prevRow = row;
-      prevCol = col;
+      generateTile();
     }
   };
 
@@ -89,6 +92,26 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
   const generateBoard = () => {
     resetBoard();
     generateTwoTiles();
+  };
+
+  const merge = (row: Array<TileValueType>): Array<TileValueType> => {
+    const mergedRow = row;
+    for (let i = 0; i < mergedRow.length - 1; i += 1) {
+      if (mergedRow[i] === mergedRow[i + 1]) {
+        mergedRow[i + 1] = (mergedRow[i + 1] * 2) as TileValueType;
+        mergedRow[i] = 0;
+      }
+    }
+    return mergedRow;
+  };
+
+  const mergeRight = () => {
+    for (let i = 0; i < board.length; i += 1) {
+      const mergedRow = merge(board[i]);
+      for (let j = 0; j < mergedRow.length; j += 1) {
+        setTile(i, j, mergedRow[j]);
+      }
+    }
   };
 
   /**
@@ -111,12 +134,27 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
 
       return [...newBoard];
     });
+
+    let row: Array<TileValueType>;
+    let mergedRow;
+    for (let i = 0; i < board.length; i += 1) {
+      row = [0, 0, 0, 0];
+      for (let j = board.length - 1; j >= 0; j -= 1) {
+        row[board.length - 1 - j] = board[j][i];
+      }
+      mergedRow = merge(row);
+      for (let j = board.length - 1; j >= 0; j -= 1) {
+        setTile(j, i, mergedRow[board.length - 1 - j]);
+      }
+    }
+
+    generateTile();
   };
 
   /**
-   * Moving tiles to right.
+   * Pushing tiles to right.
    */
-  const moveRight = () => {
+  const pushRight = () => {
     setBoard((prevBoard) => {
       const newBoard = prevBoard;
 
@@ -133,6 +171,16 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
 
       return [...newBoard];
     });
+  };
+
+  /**
+   * Moving tiles to right.
+   */
+  const moveRight = () => {
+    pushRight();
+    mergeRight();
+    pushRight();
+    generateTile();
   };
 
   /**
@@ -155,6 +203,8 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
 
       return [...newBoard];
     });
+
+    generateTile();
   };
 
   /**
@@ -177,6 +227,8 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
 
       return [...newBoard];
     });
+
+    generateTile();
   };
 
   return (
