@@ -2,7 +2,7 @@ import BoardType from 'types/BoardType';
 
 interface IBoardContext {
   board: BoardType;
-  generateBoard: () => void;
+  resetGame: () => void;
   moveUp: () => void;
   moveRight: () => void;
   moveDown: () => void;

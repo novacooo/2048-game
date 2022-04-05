@@ -1,5 +1,5 @@
 import TileValueType from 'types/TileValueType';
 
-type BoardType = Array<Array<TileValueType>>;
+type BoardType = TileValueType[][];
 
 export default BoardType;

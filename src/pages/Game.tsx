@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 const Game = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { toggleTheme } = useThemeModeContext();
-  const { generateBoard, moveUp, moveRight, moveDown, moveLeft } =
+  const { resetGame, moveUp, moveRight, moveDown, moveLeft } =
     useBoardContext();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Game = () => {
   }, [wrapperRef]);
 
   const handleKeyboardEvent = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.code === KeyCodes.KEY_R) generateBoard();
+    if (e.code === KeyCodes.KEY_R) resetGame();
     if (e.code === KeyCodes.KEY_T) toggleTheme();
     if (e.code === KeyCodes.ARROW_UP) moveUp();
     if (e.code === KeyCodes.ARROW_RIGHT) moveRight();
