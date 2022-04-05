@@ -18,6 +18,7 @@ export enum DirectionKind {
 
 export interface BoardState {
   board: BoardType;
+  score: number;
 }
 
 export interface BoardAction {
@@ -29,6 +30,8 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
   const { type, direction } = action;
 
   let newBoard: BoardType;
+  let newScore: number;
+  let tileValue: TileValueType;
   let number;
   let row;
   let col;
@@ -37,6 +40,7 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
     case BoardActionKind.RESET_BOARD:
       return {
         ...state,
+        score: 0,
         board: state.board.map((el) => el.fill(0)),
       };
     case BoardActionKind.GENERATE_TILE:
@@ -59,6 +63,7 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
       };
     case BoardActionKind.MERGE:
       newBoard = state.board;
+      newScore = state.score;
 
       for (let i = 0; i < 4; i += 1) {
         row = undefined;
@@ -71,8 +76,10 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
         if (row) {
           for (let j = 0; j < 3; j += 1) {
             if (row[j] === row[j + 1]) {
-              row[j + 1] = (row[j + 1] * 2) as TileValueType;
+              tileValue = (row[j + 1] * 2) as TileValueType;
+              row[j + 1] = tileValue;
               row[j] = 0;
+              newScore += tileValue;
             }
           }
 
@@ -95,6 +102,7 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
 
       return {
         ...state,
+        score: newScore,
         board: newBoard,
       };
     case BoardActionKind.MOVE:

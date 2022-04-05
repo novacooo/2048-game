@@ -15,6 +15,9 @@ export const lightTheme: ITheme = {
     '#edcf72',
     '#edcc61',
   ],
+  textPrimary: '#776e65',
+  textSecondary: '#eee4da',
+  textWhite: '#ffffff',
   textTileDark: '#776e65',
   textTileLight: '#f9f6f2',
 };
@@ -34,6 +37,9 @@ export const darkTheme: ITheme = {
     '#edcf72',
     '#edcc61',
   ],
+  textPrimary: '#776e65',
+  textSecondary: '#eee4da',
+  textWhite: '#ffffff',
   textTileDark: '#776e65',
   textTileLight: '#f9f6f2',
 };

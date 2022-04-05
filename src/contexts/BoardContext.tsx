@@ -21,10 +21,12 @@ const initialBoard: BoardType = [
 
 const initialState: BoardState = {
   board: initialBoard,
+  score: 0,
 };
 
 const initialContext: IBoardContext = {
   board: initialBoard,
+  score: 0,
   resetGame: () => {},
   moveUp: () => {},
   moveRight: () => {},
@@ -75,6 +77,7 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
     <BoardContext.Provider
       value={{
         board: state.board,
+        score: state.score,
         resetGame,
         moveUp,
         moveRight,

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import GameInfo from 'components/molecules/GameInfo';
 import Board from 'components/organisms/Board';
 import { useThemeModeContext } from 'contexts/ThemeModeContext';
 import { useBoardContext } from 'contexts/BoardContext';
@@ -15,9 +16,11 @@ enum KeyCodes {
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
+  gap: 30px;
 `;
 
 const Game = () => {
@@ -41,6 +44,7 @@ const Game = () => {
 
   return (
     <Wrapper ref={wrapperRef} onKeyDown={handleKeyboardEvent} tabIndex={0}>
+      <GameInfo />
       <Board />
     </Wrapper>
   );
