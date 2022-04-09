@@ -26,6 +26,17 @@ export interface BoardAction {
   direction?: DirectionKind;
 }
 
+const getRow = (board: BoardType, i: number, direction: DirectionKind) => {
+  let row;
+
+  if (direction === DirectionKind.RIGHT) row = board[i];
+  if (direction === DirectionKind.LEFT) row = board[i].reverse();
+  if (direction === DirectionKind.UP) row = board.map((el) => el[i]).reverse();
+  if (direction === DirectionKind.DOWN) row = board.map((el) => el[i]);
+
+  return row;
+};
+
 export const boardReducer = (state: BoardState, action: BoardAction) => {
   const { type, direction } = action;
 
@@ -66,12 +77,7 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
       newScore = state.score;
 
       for (let i = 0; i < 4; i += 1) {
-        row = undefined;
-        if (direction === DirectionKind.RIGHT) row = newBoard[i];
-        if (direction === DirectionKind.LEFT) row = newBoard[i].reverse();
-        if (direction === DirectionKind.UP)
-          row = newBoard.map((el) => el[i]).reverse();
-        if (direction === DirectionKind.DOWN) row = newBoard.map((el) => el[i]);
+        row = getRow(newBoard, i, direction as DirectionKind);
 
         if (row) {
           for (let j = 0; j < 3; j += 1) {
@@ -109,12 +115,7 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
       newBoard = state.board;
 
       for (let i = 0; i < 4; i += 1) {
-        row = undefined;
-        if (direction === DirectionKind.RIGHT) row = newBoard[i];
-        if (direction === DirectionKind.LEFT) row = newBoard[i].reverse();
-        if (direction === DirectionKind.UP)
-          row = newBoard.map((el) => el[i]).reverse();
-        if (direction === DirectionKind.DOWN) row = newBoard.map((el) => el[i]);
+        row = getRow(newBoard, i, direction as DirectionKind);
 
         if (row) {
           for (let j = 0; j < 4; j += 1) {
