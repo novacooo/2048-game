@@ -24,6 +24,7 @@ export interface BoardState {
 export interface BoardAction {
   type: BoardActionKind;
   direction?: DirectionKind;
+  force?: boolean;
 }
 
 const getRow = (board: BoardType, i: number, direction: DirectionKind) => {
@@ -37,8 +38,41 @@ const getRow = (board: BoardType, i: number, direction: DirectionKind) => {
   return row;
 };
 
+const checkIsEmptySpace = (board: BoardType) => {
+  for (let i = 0; i < 4; i += 1) {
+    for (let j = 0; j < 4; j += 1) {
+      if (board[i][j] === 0) return true;
+    }
+  }
+  return false;
+};
+
+const checkIsPossibleMove = (
+  board: BoardType,
+  direction: DirectionKind,
+): boolean => {
+  let status = false;
+
+  for (let i = 0; i < 4; i += 1) {
+    const row = getRow(board, i, direction);
+    if (!row) return false;
+
+    // Check empty space between tiles
+    for (let j = 4; j > 0; j -= 1) {
+      if (row[j] !== 0 && row[j - 1] === 0) status = true;
+    }
+
+    // Check merge
+    for (let j = 0; j < 3; j += 1) {
+      if (row[j] === row[j + 1] && row[j] !== 0) status = true;
+    }
+  }
+
+  return status;
+};
+
 export const boardReducer = (state: BoardState, action: BoardAction) => {
-  const { type, direction } = action;
+  const { type, direction, force } = action;
 
   let newBoard: BoardType;
   let newScore: number;
@@ -55,6 +89,21 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
         board: state.board.map((el) => el.fill(0)),
       };
     case BoardActionKind.GENERATE_TILE:
+      if (!force) {
+        if (
+          !checkIsPossibleMove(state.board, DirectionKind.UP) ||
+          !checkIsPossibleMove(state.board, DirectionKind.LEFT)
+        ) {
+          console.log('generate-tile-no-possible-move');
+          return state;
+        }
+      }
+
+      if (!checkIsEmptySpace(state.board)) {
+        console.log('generate-tile-no-empty-space');
+        return state;
+      }
+
       newBoard = state.board;
 
       while (number !== 2 && number !== 4) {
@@ -111,6 +160,11 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
         board: newBoard,
       };
     case BoardActionKind.MOVE:
+      if (!checkIsPossibleMove(state.board, direction as DirectionKind)) {
+        console.log('move-no-possible-move');
+        return state;
+      }
+
       newBoard = state.board;
 
       for (let i = 0; i < 4; i += 1) {

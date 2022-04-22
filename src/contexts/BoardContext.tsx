@@ -41,8 +41,8 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
 
   const resetGame = () => {
     dispatch({ type: BoardActionKind.RESET_BOARD });
-    dispatch({ type: BoardActionKind.GENERATE_TILE });
-    dispatch({ type: BoardActionKind.GENERATE_TILE });
+    dispatch({ type: BoardActionKind.GENERATE_TILE, force: true });
+    dispatch({ type: BoardActionKind.GENERATE_TILE, force: true });
   };
 
   const moveUp = () => {
@@ -54,7 +54,7 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
 
   const moveRight = () => {
     dispatch({ type: BoardActionKind.MOVE, direction: DirectionKind.RIGHT });
-    dispatch({ type: BoardActionKind.MERGE, direction: DirectionKind.RIGHT });
+    // dispatch({ type: BoardActionKind.MERGE, direction: DirectionKind.RIGHT });
     dispatch({ type: BoardActionKind.MOVE, direction: DirectionKind.RIGHT });
     dispatch({ type: BoardActionKind.GENERATE_TILE });
   };
@@ -67,9 +67,9 @@ const BoardProvider = ({ children }: BoardProviderProps) => {
   };
 
   const moveLeft = () => {
-    dispatch({ type: BoardActionKind.MOVE, direction: DirectionKind.LEFT });
-    dispatch({ type: BoardActionKind.MERGE, direction: DirectionKind.LEFT });
-    dispatch({ type: BoardActionKind.MOVE, direction: DirectionKind.LEFT });
+    // dispatch({ type: BoardActionKind.MOVE, direction: DirectionKind.LEFT });
+    // dispatch({ type: BoardActionKind.MERGE, direction: DirectionKind.LEFT });
+    // dispatch({ type: BoardActionKind.MOVE, direction: DirectionKind.LEFT });
     dispatch({ type: BoardActionKind.GENERATE_TILE });
   };
 
