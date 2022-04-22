@@ -80,11 +80,12 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
         row = getRow(newBoard, i, direction as DirectionKind);
 
         if (row) {
-          for (let j = 0; j < 3; j += 1) {
-            if (row[j] === row[j + 1]) {
-              tileValue = (row[j + 1] * 2) as TileValueType;
-              row[j + 1] = tileValue;
+          for (let j = 3; j > 0; j -= 1) {
+            if (row[j] === row[j - 1]) {
+              tileValue = (row[j - 1] * 2) as TileValueType;
+              row[j - 1] = tileValue;
               row[j] = 0;
+              j -= 1;
               newScore += tileValue;
             }
           }
@@ -99,9 +100,7 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
             direction === DirectionKind.UP ||
             direction === DirectionKind.DOWN
           ) {
-            for (let j = 0; j < 4; j += 1) {
-              newBoard[j][i] = row[j];
-            }
+            for (let j = 0; j < 4; j += 1) newBoard[j][i] = row[j];
           }
         }
       }
@@ -137,9 +136,7 @@ export const boardReducer = (state: BoardState, action: BoardAction) => {
             direction === DirectionKind.UP ||
             direction === DirectionKind.DOWN
           ) {
-            for (let j = 0; j < 4; j += 1) {
-              newBoard[j][i] = row[j];
-            }
+            for (let j = 0; j < 4; j += 1) newBoard[j][i] = row[j];
           }
         }
       }
